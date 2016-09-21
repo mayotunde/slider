@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8' />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+  <meta name="description" content="Leafletslider : LeafletSlider" />
+
+  <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+  <link rel="stylesheet" href="https://npmcdn.com/leaflet@0.7.7/dist/leaflet.css" />
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" type="text/css">
+
+ 
+  <title></title>
+</head>
+
+<body>
+
+  
+    <div id="map" style="width: 70%; height: 500px"></div>
+
+    <script src="https://npmcdn.com/leaflet@0.7.7/dist/leaflet.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js"></script>
+    <script src="https://cdn.rawgit.com/mayotunde/slider/master/SliderControl.js" ></script>
+    <script src="http://code.jquery.com/jquery-3.0.0.min.map"></script>
+
+    <script>
+    var sliderControl = null;
+
+    var map = L.map('map').setView([9.0, 8.0], 5);
+
+	mapLink = '<a href="http://mapsnigeriainitiative.wordpress.com">mapsnigeriainitiative</a>';
+
+   var wmsLayer = L.tileLayer.wms('https://wms.qgiscloud.com/mapsdigital/states?', {
+    layers: 'states',
+    format: 'image/png',
+    transparent: true,
+    attribution: '&copy; ' + mapLink
+	}).addTo(map);
+
+
+     
+    $.getJSON("https://cdn.rawgit.com/mayotunde/slider/master/datecreated.geojson", function(data) {
+
+      var testlayer = L.geoJson(data);
+      var sliderControl = L.control.sliderControl({
+        position: "topright",
+        layer: testlayer,
+	 timeAttribute: "createdate",
+	iscreatedate: true,
+        range: true
+      });
+
+      
+      map.addControl(sliderControl);
+      
+      sliderControl.startSlider();
+    });
+    </script>
+
+</body>
+
+</html>
